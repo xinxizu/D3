@@ -1,0 +1,46 @@
+<DOCTYPE html>
+<meta charset="utf-8">
+
+<svg width="720" height="120">
+	<circle cx="40" cy="60" r="10"></circle>
+	<circle cx="80" cy="60" r="10"></circle>
+	<circle cx="120" cy="60" r="10"></circle>
+</svg>
+<body>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+
+var circle=d3.selectAll("circle");
+	//改变颜色
+	circle.style("fill","steelblue");
+    	//改变半径
+	circle.attr("r","20");
+	//用函数来生成随机位置
+	circle.attr("cx",function(){return Math.random()*720;});
+	//给每个圆绑定数据，并由此生成半径
+	circle.data([32,57,112]);
+	circle.attr("r",function(d){return Math.sqrt(d);});
+	//使用索引i来构造参数,i要放在d的后面
+	circle.attr("cx",function(d,i){return i*100+30;});
+
+	//新增加3个圆,不会改变前三个圆的设置，只改变新增加的那个圆
+	var svg=d3.select("svg");
+	svg.selectAll("circle")
+           .data([32,57,112,293,398,499])
+	   .enter().append("circle")
+	   .attr("cy","60")
+	   .attr("cx",function(d,i){return i*100+30;})
+	   .attr("r", function(d){return Math.sqrt(d);})
+	   .transition().delay(3000) //设置渐进变大	
+	   .attr("r","46");
+
+	//删除圆
+	/*svg.selectAll("circle")
+	   .data([32,57])
+	   .exit().remove();
+	*/
+
+//设置背景颜色	   
+d3.select("body").transition().style("background-color","green");
+</script>
+</body>
